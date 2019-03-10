@@ -1,6 +1,6 @@
 # Todo List (React)
 ### Todo list application React front end
-### [Can be used with the Todo List API](https://github.com/kylbutlr/todo-list-api)
+### [Can be used with Todo List (API)](https://github.com/kylbutlr/todo-list-api)
 
 ## Install
 
