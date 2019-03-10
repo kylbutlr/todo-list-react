@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
+import CreateForm from './CreateForm';
+import EditForm from './EditForm';
 
 const API_ENDPOINT = 'http://localhost:3000';
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const tabs = {
-  VIEW_TODOS: 1,
-  CREATE_TODO: 2,
-  EDIT_TODO: 3,
+  VIEW: 1,
+  CREATE: 2,
+  EDIT: 3,
 };
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.onFormChange = this.onFormChange.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
     this.state = {
-      activeTab: tabs.VIEW_TODOS,
+      activeTab: tabs.VIEW,
       todos: [],
+      input: {
+        id: '',
+        title: '',
+        date: '',
+        time: '',
+        complete: false,
+      },
     };
   }
 
@@ -25,9 +36,8 @@ class App extends Component {
   }
 
   tabClick(activeTab) {
-    if (activeTab === tabs.VIEW_TODOS) {
-      // CANCEL CREATE TODO (CLEAR INPUT)
-      // CANCEL EDIT TODO (CLEAR INPUT)
+    if (activeTab === tabs.VIEW) {
+      this.resetInput();
     }
     this.setState({ activeTab });
   }
@@ -57,9 +67,92 @@ class App extends Component {
     }
   }
 
+  resetInput() {
+    this.setState({ 
+      input: { 
+        id: '', 
+        title: '', 
+        date: '',
+        time: '',
+        complete: false 
+      } 
+    });
+  }
+
+  onFormChange(field, e) {
+    this.setState({
+      input: { ...this.state.input, [field]: e.target.value },
+    });
+  }
+
+  onFormSubmit(e) {
+    e.preventDefault();
+    if (this.state.input.id !== '') {
+      console.log('EDIT NOTE');
+    } else {
+      console.log('CREATE NOTE');
+    }
+    console.log(this.state.input);
+    this.resetInput();
+    this.tabClick(tabs.VIEW);
+
+    /*const input = this.state.noteInput;
+    input.user_id = this.state.loggedIn.user_id;
+    this.checkTagsInput(input.tags, tags => {
+      this.convertTagsToId(tags, newTags => {
+        input.tags = newTags;
+        if (input.tags !== false) {
+          if (input.title === ' ' || input.text === ' ') {
+            alert('New note must not contain a blank title or text.');
+            this.resetNoteInput();
+          } else {
+            this.getConfig(this.state.loggedIn, config => {
+              axios
+                .post(`${API_ENDPOINT}/notes`, input, config)
+                .catch(err => {
+                  if (err.response.status === 401) {
+                    alert('Error: Session has expired, please log in again.');
+                    this.logoutUser('user');
+                  } else {
+                    alert('Error: ' + err.message);
+                  }
+                })
+                .then(res => {
+                  if (res) {
+                    this.cleanString(res.data.tags, cleanTags => {
+                      this.convertIdToTags(cleanTags, convertedTags => {
+                        this.parseTags(convertedTags, parsedTags => {
+                          const newNote = {
+                            title: res.data.title,
+                            text: res.data.text,
+                            tags: parsedTags,
+                            id: res.data.id,
+                          };
+                          this.setState(
+                            {
+                              noteInput: newNote,
+                              notes: this.state.notes.concat(newNote),
+                            },
+                            () => {
+                              this.resetNoteInput();
+                              this.tabClick(tabs.VIEW_NOTES);
+                            }
+                          );
+                        });
+                      });
+                    });
+                  }
+                });
+            });
+          }
+        }
+      });
+    });*/
+  }
+
   handleEditTodo(id) {
     console.log(`EDIT: ${id}`);
-    this.tabClick(tabs.EDIT_TODO);
+    this.tabClick(tabs.EDIT);
   }
 
   handleDeleteTodo(id) {
@@ -68,7 +161,6 @@ class App extends Component {
 
   renderTodo(todo) {
     const { id, title, date, time, complete } = todo;
-    console.log(todo);
     const newDate = this.formatDate(date);
     return (
       <li key={id}>
@@ -122,31 +214,58 @@ class App extends Component {
           <h1>Todo List</h1>
         </div>
         <div className='Body'>
+          
           <div className='app-buttons'>
-          <button
+            <button
               id='tabsCREATE_TODO'
               style={{
-                display: this.state.activeTab === tabs.VIEW_TODOS ? 'block' : 'none',
+                display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
               }}
-              onClick={() => this.tabClick(tabs.CREATE_TODO)}>
+              onClick={() => this.tabClick(tabs.CREATE)}>
               Create Todo
             </button>
             <button
               id='tabsVIEW_TODOS'
               style={{
-                display: this.state.activeTab !== tabs.VIEW_TODOS ? 'block' : 'none',
+                display: this.state.activeTab !== tabs.VIEW ? 'block' : 'none',
               }}
-              onClick={() => this.tabClick(tabs.VIEW_TODOS)}>
+              onClick={() => this.tabClick(tabs.VIEW)}>
               Go Back
             </button>
           </div>
+          
+          <div 
+            className='Create-Form'
+            style={{
+              display: this.state.activeTab === tabs.CREATE ? 'block' : 'none',
+            }}>
+            <CreateForm 
+              onSubmit={this.onFormSubmit}
+              onChange={this.onFormChange}
+              {...this.state.input}
+            />  
+          </div>
+          
+          <div 
+            className='Edit-Form'
+            style={{
+              display: this.state.activeTab === tabs.EDIT ? 'block' : 'none',
+            }}>
+            <EditForm 
+              onSubmit={this.onFormSubmit}
+              onChange={this.onFormChange}
+              {...this.state.input}
+            />  
+          </div>
+
           <div
             className='todo-list'
             style={{
-              display: this.state.activeTab === tabs.VIEW_TODOS ? 'block' : 'none',
+              display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
             }}>
             <ol>{this.state.todos.map(n => this.renderTodo(n))}</ol>
           </div>
+
         </div>
       </div>
     );
