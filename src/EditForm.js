@@ -36,7 +36,7 @@ export default ({ onSubmit, onChange, title, date, time, id }) => (
         onChange={e => onChange('time', e)}
       />
     </label>
-    <input name='id' type='text' value={id} onChange={e => onChange('id', e)} />
+    <input name='id' className='id-input' type='text' value={id} onChange={e => onChange('id', e)} />
     <input type='submit' value='Save Todo' />
   </form>
 );
