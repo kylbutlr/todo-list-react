@@ -68,14 +68,14 @@ class App extends Component {
   }
 
   resetInput() {
-    this.setState({ 
-      input: { 
-        id: '', 
-        title: '', 
+    this.setState({
+      input: {
+        id: '',
+        title: '',
         date: '',
         time: '',
-        complete: false 
-      } 
+        complete: false,
+      },
     });
   }
 
@@ -87,83 +87,140 @@ class App extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    if (this.state.input.id !== '') {
-      console.log('EDIT NOTE');
-    } else {
-      console.log('CREATE NOTE');
+    const { id, title, complete } = this.state.input;
+    let { date, time } = this.state.input;
+    if (date === '') {
+      date = null;
     }
-    console.log(this.state.input);
-    this.resetInput();
-    this.tabClick(tabs.VIEW);
-
-    /*const input = this.state.noteInput;
-    input.user_id = this.state.loggedIn.user_id;
-    this.checkTagsInput(input.tags, tags => {
-      this.convertTagsToId(tags, newTags => {
-        input.tags = newTags;
-        if (input.tags !== false) {
-          if (input.title === ' ' || input.text === ' ') {
-            alert('New note must not contain a blank title or text.');
-            this.resetNoteInput();
-          } else {
-            this.getConfig(this.state.loggedIn, config => {
-              axios
-                .post(`${API_ENDPOINT}/notes`, input, config)
-                .catch(err => {
-                  if (err.response.status === 401) {
-                    alert('Error: Session has expired, please log in again.');
-                    this.logoutUser('user');
-                  } else {
-                    alert('Error: ' + err.message);
-                  }
-                })
-                .then(res => {
-                  if (res) {
-                    this.cleanString(res.data.tags, cleanTags => {
-                      this.convertIdToTags(cleanTags, convertedTags => {
-                        this.parseTags(convertedTags, parsedTags => {
-                          const newNote = {
-                            title: res.data.title,
-                            text: res.data.text,
-                            tags: parsedTags,
-                            id: res.data.id,
-                          };
-                          this.setState(
-                            {
-                              noteInput: newNote,
-                              notes: this.state.notes.concat(newNote),
-                            },
-                            () => {
-                              this.resetNoteInput();
-                              this.tabClick(tabs.VIEW_NOTES);
-                            }
-                          );
-                        });
-                      });
-                    });
-                  }
-                });
+    if (time === '') {
+      time = null;
+    }
+    const newInput = { id, title, date, time, complete };
+    if (this.state.input.id === '') {
+      axios
+        .post(`${API_ENDPOINT}/todos`, newInput)
+        .catch(err => {
+          console.log(err);
+        })
+        .then(res => {
+          if (res) {
+            this.setState({
+              todos: this.state.todos.concat({
+                id: res.data.id,
+                title: res.data.title,
+                date: res.data.date,
+                time: res.data.time,
+                complete: res.data.complete,
+              }),
             });
           }
-        }
-      });
-    });*/
+        });
+    } else {
+      axios
+        .put(`${API_ENDPOINT}/todos/${id}`, newInput)
+        .catch(err => {
+          console.log(err);
+        })
+        .then(res => {
+          if (res) {
+            const items = this.state.todos.filter(x => x.id !== Number(id));
+            this.setState({
+              todos: items.concat({
+                id: Number(id),
+                title: title,
+                date: date,
+                time: time,
+                complete: complete,
+              }),
+            });
+          }
+        });
+    }
+    this.resetInput();
+    this.tabClick(tabs.VIEW);
+  }
+
+  handleComplete(id) {
+    let todo = this.state.todos.filter(x => x.id === Number(id));
+    if (todo[0].complete === false) {
+      todo[0].complete = true;
+    } else {
+      todo[0].complete = false;
+    }
+    axios.put(`${API_ENDPOINT}/todos/${id}`, todo[0])
+    .catch(err => {
+      console.log(err)
+    })
+    .then(() => {
+      const todos = this.state.todos.filter(x => x.id !== Number(id));
+      this.setState({
+        todos: todos.concat({
+          id: Number(id),
+          title: todo[0].title,
+          date: todo[0].date,
+          time: todo[0].time,
+          complete: todo[0].complete,
+        })
+      })
+    })
   }
 
   handleEditTodo(id) {
-    console.log(`EDIT: ${id}`);
-    this.tabClick(tabs.EDIT);
+    const todo = this.state.todos.filter(x => x.id === Number(id));
+    this.setState(
+      {
+        input: todo[0],
+      },
+      () => {
+        this.tabClick(tabs.EDIT);
+      }
+    );
   }
 
   handleDeleteTodo(id) {
-    console.log(`DELETE: ${id}`);
+    axios
+      .delete(`${API_ENDPOINT}/todos/${id}`)
+      .catch(err => {
+        console.log(err);
+      })
+      .then(() => {
+        const todos = this.state.todos.filter(x => x.id !== Number(id));
+        console.log(todos);
+        this.setState({
+          todos: todos,
+        });
+      });
   }
 
-  renderTodo(todo) {
+  handleDeleteAll() {
+    if (
+      window.confirm(
+        'Are you sure you want to delete all (' + this.state.todos.length + ') saved todos?'
+      )
+    ) {
+      axios
+        .delete(`${API_ENDPOINT}/todos`)
+        .catch(err => {
+          console.log(err);
+        })
+        .then(() => {
+          this.setState({
+            todos: [],
+          });
+        });
+    }
+  }
+
+  renderIncompleteTodo(todo) {
     const { id, title, date, time, complete } = todo;
     const newDate = this.formatDate(date);
     return (
-      <li key={id}>
+      <li
+        key={id}
+        onClick={() => {
+          this.handleComplete(id);
+        }}
+        style={{display: !complete ? 'block' : 'none'}}>
         <div className='todo-item'>
           <p className='p1'>{title}</p>
           <p
@@ -180,19 +237,45 @@ class App extends Component {
             }}>
             at: {time}
           </p>
+        </div>
+        <div className='todo-buttons'>
+          <button className='edit-button' data-id={id} onClick={() => this.handleEditTodo(id)}>
+            Edit
+          </button>
+          <button className='delete-button' data-id={id} onClick={() => this.handleDeleteTodo(id)}>
+            Delete
+          </button>
+        </div>
+      </li>
+    );
+  }
+
+  renderCompleteTodo(todo) {
+    const { id, title, date, time, complete } = todo;
+    const newDate = this.formatDate(date);
+    return (
+      <li
+        key={id}
+        onClick={() => {
+          this.handleComplete(id);
+        }}
+        style={{display: complete ? 'block' : 'none'}}
+        className='strike-through'>
+        <div className='todo-item'>
+          <p className='p1'>{title}</p>
           <p
-            className='p4'
+            className='p2'
             style={{
-              display: complete ? 'block' : 'none',
+              display: newDate ? 'block' : 'none',
             }}>
-            COMPLETE
+            by: {newDate}
           </p>
           <p
-            className='p4'
+            className='p3'
             style={{
-              display: !complete ? 'block' : 'none',
+              display: time ? 'block' : 'none',
             }}>
-            INCOMPLETE
+            at: {time}
           </p>
         </div>
         <div className='todo-buttons'>
@@ -214,7 +297,6 @@ class App extends Component {
           <h1>Todo List</h1>
         </div>
         <div className='Body'>
-          
           <div className='app-buttons'>
             <button
               id='tabsCREATE_TODO'
@@ -233,29 +315,29 @@ class App extends Component {
               Go Back
             </button>
           </div>
-          
-          <div 
+
+          <div
             className='Create-Form'
             style={{
               display: this.state.activeTab === tabs.CREATE ? 'block' : 'none',
             }}>
-            <CreateForm 
+            <CreateForm
               onSubmit={this.onFormSubmit}
               onChange={this.onFormChange}
               {...this.state.input}
-            />  
+            />
           </div>
-          
-          <div 
+
+          <div
             className='Edit-Form'
             style={{
               display: this.state.activeTab === tabs.EDIT ? 'block' : 'none',
             }}>
-            <EditForm 
+            <EditForm
               onSubmit={this.onFormSubmit}
               onChange={this.onFormChange}
               {...this.state.input}
-            />  
+            />
           </div>
 
           <div
@@ -263,9 +345,22 @@ class App extends Component {
             style={{
               display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
             }}>
-            <ol>{this.state.todos.map(n => this.renderTodo(n))}</ol>
+            <div className='incomplete-list'>
+              <ol>{this.state.todos.map(n => this.renderIncompleteTodo(n))}</ol>
+            </div>
+            <div className='complete-list'>
+              <ol>{this.state.todos.map(n => this.renderCompleteTodo(n))}</ol>
+            </div>
+            <div
+              className='delete-all'
+              style={{
+                display: this.state.todos.length > 0 ? 'block' : 'none',
+              }}>
+              <button onClick={() => this.handleDeleteAll()}>
+                Delete All
+              </button>
+            </div>
           </div>
-
         </div>
       </div>
     );

@@ -1,0 +1,7 @@
+.strike-through {
+  text-decoration: line-through wavy;
+}
+
+.id-input {
+  display: none;
+}
