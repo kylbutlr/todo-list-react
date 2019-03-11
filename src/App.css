@@ -5,3 +5,12 @@
 .id-input {
   display: none;
 }
+
+.due-today {
+  color: red;
+  font-weight: bold;
+}
+
+.todo-list {
+  width: 25vw;
+}
