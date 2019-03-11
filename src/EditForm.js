@@ -19,7 +19,7 @@ export default ({ onSubmit, onChange, title, date, time, id }) => (
       <br />
       <input
         name='date'
-        type='text'
+        type='date'
         autoComplete='off'
         value={date}
         onChange={e => onChange('date', e)}
@@ -30,7 +30,7 @@ export default ({ onSubmit, onChange, title, date, time, id }) => (
       <br />
       <input
         name='time'
-        type='text'
+        type='time'
         autoComplete='off'
         value={time}
         onChange={e => onChange('time', e)}
