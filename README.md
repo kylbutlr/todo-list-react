@@ -1,5 +1,6 @@
 # Todo List (React)
 ### Todo list application React front end
+#### Using: React, Bulma, and Sass
 ### [Can be used with Todo List (API)](https://github.com/kylbutlr/todo-list-api)
 
 ## Install
