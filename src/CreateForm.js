@@ -2,8 +2,8 @@ import React from 'react';
 
 export default ({ onSubmit, onChange, title, date, time }) => (
   <div className='card'>
-    <div className='card-header has-background-primary'>
-      <h1 className='card-header-title title is-4 is-centered'>New Todo</h1>
+    <div className='card-header has-background-dark'>
+      <h1 className='card-header-title subtitle is-centered has-text-light'>New Todo</h1>
     </div>
     <div className='card-content'>
       <div className='field'>
@@ -35,19 +35,23 @@ export default ({ onSubmit, onChange, title, date, time }) => (
       </div>
       <div className='field'>
         <label className='label'>Time</label>
-          <div className='control'>
-            <input
-              className='input'
-              name='time'
-              type='time'
-              autoComplete='off'
-              value={time}
-              onChange={e => onChange('time', e)}
-            />
+        <div className='control'>
+          <input
+            className='input'
+            name='time'
+            type='time'
+            autoComplete='off'
+            value={time}
+            onChange={e => onChange('time', e)}
+          />
         </div>
       </div>
       <div className='control'>
-        <button className='button is-primary is-fullwidth' onClick={onSubmit}>Create Todo</button>
+        <button
+          className='button is-primary is-fullwidth has-text-dark subtitle has-text-weight-semibold'
+          onClick={onSubmit}>
+          Create Todo
+        </button>
       </div>
     </div>
   </div>

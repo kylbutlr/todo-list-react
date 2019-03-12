@@ -132,7 +132,7 @@ class App extends Component {
     const timeObject = new Date(dateObject.getTime() - dateObject.getTimezoneOffset() * 60000);
     return timeObject;
   }
-  
+
   timezoneOffsetAdd(date) {
     const dateObject = new Date(date);
     const timeObject = new Date(dateObject.getTime() + dateObject.getTimezoneOffset() * 60000);
@@ -313,6 +313,30 @@ class App extends Component {
     }
   }
 
+  handleHideList(list) {
+    if (list === 'today') {
+      if (document.getElementById('todayList').classList.contains('display-none')) {
+        document.getElementById('todayList').classList.remove('display-none');
+      } else {
+        document.getElementById('todayList').classList.add('display-none');
+      }
+    }
+    if (list === 'incomplete') {
+      if (document.getElementById('incompleteList').classList.contains('display-none')) {
+        document.getElementById('incompleteList').classList.remove('display-none');
+      } else {
+        document.getElementById('incompleteList').classList.add('display-none');
+      }
+    }
+    if (list === 'complete') {
+      if (document.getElementById('completeList').classList.contains('display-none')) {
+        document.getElementById('completeList').classList.remove('display-none');
+      } else {
+        document.getElementById('completeList').classList.add('display-none');
+      }
+    }
+  }
+
   renderTodayTodo(todo) {
     const { id, title, date, time, complete } = todo;
     const formattedDate = this.formatDateToRead(date);
@@ -367,7 +391,7 @@ class App extends Component {
     const formattedDate = this.formatDateToRead(date);
     const formattedTime = this.formatAmPm(time);
     return (
-      <li key={id} style={{ display: complete ? 'block' : 'none' }} className='strike-through'>
+      <li key={id} style={{ display: complete ? 'block' : 'none' }} className='complete'>
         <TodoItem
           id={id}
           title={title}
@@ -387,7 +411,7 @@ class App extends Component {
         <nav className='navbar is-fixed-top is-primary'>
           <div className='navbar-brand'>
             <div className='navbar-item' onClick={() => this.tabClick(tabs.VIEW)}>
-              <h1 className='title is-2'>Todo List</h1>
+              <h1 className='title'>Todo List</h1>
             </div>
             <div className='navbar-item navbar-buttons'>
               <div className='is-vertical-center'>
@@ -398,10 +422,11 @@ class App extends Component {
                     display: this.state.activeTab !== tabs.VIEW ? 'flex' : 'none',
                   }}>
                   <FontAwesomeIcon icon={faTimesCircle} size='lg' style={{ color: '#363636' }} />
-                  <h1 className='subtitle create-note'>Back to Notes</h1>
+                  <h1 className='subtitle'>
+                    Back<span> to Notes</span>
+                  </h1>
                 </button>
               </div>
-
               <div className='is-vertical-center'>
                 <button
                   className='button is-primary'
@@ -410,77 +435,96 @@ class App extends Component {
                     display: this.state.activeTab === tabs.VIEW ? 'flex' : 'none',
                   }}>
                   <FontAwesomeIcon icon={faPlusCircle} size='lg' style={{ color: '#363636' }} />
-                  <h1 className='subtitle create-note'>Create Note</h1>
+                  <h1 className='subtitle'>
+                    Create<span> Note</span>
+                  </h1>
                 </button>
               </div>
               <div className='is-vertical-center'>
                 <button className='button is-primary' onClick={() => this.handleDeleteAll()}>
                   <FontAwesomeIcon icon={faTrashAlt} size='lg' style={{ color: '#363636' }} />
-                  <h1 className='subtitle create-note'>Delete All Notes</h1>
+                  <h1 className='subtitle'>
+                    Delete<span> All Notes</span>
+                  </h1>
                 </button>
               </div>
             </div>
           </div>
         </nav>
-        <div className='Body container'>
-          <div
-            className='Create-Form'
-            style={{
-              display: this.state.activeTab === tabs.CREATE ? 'block' : 'none',
-            }}>
-            <CreateForm
-              onSubmit={this.onFormSubmit}
-              onChange={this.onFormChange}
-              {...this.state.input}
-            />
-          </div>
-          <div
-            className='Edit-Form'
-            style={{
-              display: this.state.activeTab === tabs.EDIT ? 'block' : 'none',
-            }}>
-            <EditForm
-              onSubmit={this.onFormSubmit}
-              onChange={this.onFormChange}
-              {...this.state.input}
-            />
-          </div>
-
-          <div
-            className='todo-list card'
-            style={{
-              display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
-            }}>
-            <div className='card-header'>
-              <h1 className='card-header-title is-centered'>Today</h1>
+        <div className='container'>
+          <div className='columns is-mobile'>
+            <div className='column side-column' />
+            <div className='column middle-column'>
+              <div
+                className='Create-Form'
+                style={{
+                  display: this.state.activeTab === tabs.CREATE ? 'block' : 'none',
+                }}>
+                <CreateForm
+                  onSubmit={this.onFormSubmit}
+                  onChange={this.onFormChange}
+                  {...this.state.input}
+                />
+              </div>
+              <div
+                className='Edit-Form'
+                style={{
+                  display: this.state.activeTab === tabs.EDIT ? 'block' : 'none',
+                }}>
+                <EditForm
+                  onSubmit={this.onFormSubmit}
+                  onChange={this.onFormChange}
+                  {...this.state.input}
+                />
+              </div>
+              <div
+                className='todo-list card'
+                style={{
+                  display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
+                }}>
+                <div
+                  onClick={() => this.handleHideList('today')}
+                  className='card-header has-background-dark'>
+                  <h1 className='card-header-title subtitle is-centered has-text-light'>Today</h1>
+                </div>
+                <div id='todayList' className='today-list card-content'>
+                  <ol>{this.state.todos.map(n => this.renderTodayTodo(n))}</ol>
+                </div>
+              </div>
+              <div
+                className='todo-list card'
+                style={{
+                  display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
+                }}>
+                <div
+                  onClick={() => this.handleHideList('incomplete')}
+                  className='card-header has-background-dark'>
+                  <h1 className='card-header-title subtitle is-centered has-text-light'>
+                    Incomplete
+                  </h1>
+                </div>
+                <div id='incompleteList' className='incomplete-list card-content'>
+                  <ol>{this.state.todos.map(n => this.renderIncompleteTodo(n))}</ol>
+                </div>
+              </div>
+              <div
+                className='todo-list card'
+                style={{
+                  display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
+                }}>
+                <div
+                  onClick={() => this.handleHideList('complete')}
+                  className='card-header has-background-dark'>
+                  <h1 className='card-header-title subtitle is-centered has-text-light'>
+                    Complete
+                  </h1>
+                </div>
+                <div id='completeList' className='complete-list card-content'>
+                  <ol>{this.state.todos.map(n => this.renderCompleteTodo(n))}</ol>
+                </div>
+              </div>
             </div>
-            <div className='today-list card-content'>
-              <ol>{this.state.todos.map(n => this.renderTodayTodo(n))}</ol>
-            </div>
-          </div>
-          <div
-            className='todo-list card'
-            style={{
-              display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
-            }}>
-            <div className='card-header'>
-              <h1 className='card-header-title is-centered'>Incomplete</h1>
-            </div>
-            <div className='incomplete-list card-content'>
-              <ol>{this.state.todos.map(n => this.renderIncompleteTodo(n))}</ol>
-            </div>
-          </div>
-          <div
-            className='todo-list card'
-            style={{
-              display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
-            }}>
-            <div className='card-header'>
-              <h1 className='card-header-title is-centered'>Complete</h1>
-            </div>
-            <div className='complete-list card-content'>
-              <ol>{this.state.todos.map(n => this.renderCompleteTodo(n))}</ol>
-            </div>
+            <div className='column side-column' />
           </div>
         </div>
       </div>

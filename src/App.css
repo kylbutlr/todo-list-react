@@ -1,9 +1,25 @@
-.strike-through {
-  text-decoration: line-through wavy;
+p, h1 {
+  cursor: default;
+}
+
+.navbar h1,
+.card-header h1,
+.card-content .box,
+.card-content p {
+  cursor: pointer;
 }
 
 .id-input {
   display: none;
+}
+
+.complete {
+  opacity: 0.5;
+  text-decoration: line-through wavy;
+}
+
+.due-today .box {
+  background: #00d1b1 !important;
 }
 
 .due-today p {
@@ -11,12 +27,8 @@
   font-weight: bold;
 }
 
-.due-today .box {
-  background: hsl(171, 100%, 41%);
-}
-
 .todo-list {
-  width: 25vw;
+  width: 40vw;
 }
 
 .is-vertical-center {
@@ -37,20 +49,21 @@
   padding-left: 1vh;
 }
 
-.navbar-buttons > div {
+.navbar-buttons > .is-vertical-center:nth-child(2) {
   padding-right: 1vh;
 }
 
-.has-navbar-fixed-top {
-  padding-top: 3.75rem !important;
+.navbar-brand > .navbar-item:first-child {
+  margin-left: 0.75rem;
 }
 
 .background {
   background: #ececec;
 }
 
-.Create-Form {
-  padding-top: 10vh;
+.Create-Form,
+.Edit-Form {
+  padding-top: 15vh;
 }
 
 .title {
@@ -59,12 +72,12 @@
 }
 
 .todo-list {
-  margin-bottom: 0.75rem !important;
+  margin: 0.75rem auto !important;
 }
 
 .todo-list > .card-content {
   padding-top: 0.75rem;
-  padding-bottom: 0.001rem;
+  padding-bottom: 0rem;
 }
 
 .card-content .box {
@@ -88,4 +101,94 @@
 
 .todo-buttons div {
   flex: 1;
+  transition: all 0.25s;
+  opacity: 0.5;
+}
+
+.todo-buttons div:hover {
+  opacity: 1;
+}
+
+.navbar-buttons div button svg {
+  position: relative;
+  top: 0.1rem;
+}
+
+.control .button {
+  margin-top: 1.5rem !important;
+}
+
+.display-none {
+  display: none;
+}
+
+@media only screen and (max-width:767px) {
+
+  html {
+    margin-left: 0.75rem !important;
+  }
+
+  .navbar-brand {
+    width: 100vw;
+    justify-content: space-between;
+  }
+
+  .navbar-buttons {
+    align-items: flex-end !important;
+  }
+
+  .navbar-buttons h1 {
+    font-size: 100%;
+  }
+
+  .navbar-buttons span {
+    display: none;
+  }
+
+  .Create-Form,
+  .Edit-Form {
+    padding-top: 10vh;
+  }
+
+  .todo-list {
+    width: 80vw;
+  }
+
+  .middle-column,
+  .side-column {
+    padding-bottom: 0 !important;
+  }
+
+  .navbar-buttons > .is-vertical-center:nth-child(2) {
+    padding-right: 0;
+  }
+
+  .navbar-brand > .navbar-item:first-child {
+    margin-left: 0;
+  }
+
+  .side-column:first-child {
+    margin-left: 0;
+  }
+
+  .todo-buttons div {
+    opacity: 1;
+  }
+
+}
+
+@media only screen and (min-width:768px) and (max-width:1024px) {
+
+  html {
+    margin-left: 0.75rem !important;
+  }
+
+  .todo-list {
+    width: 60vw;
+  }
+
+  .todo-buttons div {
+    opacity: 1;
+  }
+
 }

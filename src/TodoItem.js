@@ -2,14 +2,22 @@ import React from 'react';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default ({ id, title, formattedDate, formattedTime, handleEditTodo, handleDeleteTodo, handleCheckComplete }) => (
+export default ({
+  id,
+  title,
+  formattedDate,
+  formattedTime,
+  handleEditTodo,
+  handleDeleteTodo,
+  handleCheckComplete,
+}) => (
   <div className='todo'>
-    <div className='box has-fullwidth'>
-      <div
-        className='todo-info'
-        onClick={() => {
-          handleCheckComplete(id);
-        }}>
+    <div
+      className='box has-fullwidth has-background-light'
+      onClick={() => {
+        handleCheckComplete(id);
+      }}>
+      <div className='todo-info has-text-dark'>
         <p className='is-size-5 has-text-centered'>{title}</p>
         <p
           className='is-size-7 has-text-centered'
@@ -28,18 +36,14 @@ export default ({ id, title, formattedDate, formattedTime, handleEditTodo, handl
       </div>
     </div>
     <div className='todo-buttons'>
-      <div className='button'>
-        <FontAwesomeIcon icon={faEdit} data-id={id} onClick={() => handleEditTodo(id)}/>
+      <div className='button has-background-dark has-text-white' onClick={() => handleEditTodo(id)}>
+        <FontAwesomeIcon icon={faEdit} data-id={id} />
       </div>
-      <div className='button'>
-        <FontAwesomeIcon icon={faTrashAlt} data-id={id} onClick={() => handleDeleteTodo(id)}/>
+      <div
+        className='button has-background-dark has-text-white'
+        onClick={() => handleDeleteTodo(id)}>
+        <FontAwesomeIcon icon={faTrashAlt} data-id={id} />
       </div>
-      {/*<button className='edit-button' data-id={id} onClick={() => handleEditTodo(id)}>
-        Edit
-      </button>
-      <button className='delete-button' data-id={id} onClick={() => handleDeleteTodo(id)}>
-        Delete
-      </button>*/}
     </div>
   </div>
 );
