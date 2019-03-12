@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
+import '../node_modules/bulma/css/bulma.min.css';
 import CreateForm from './CreateForm';
 import EditForm from './EditForm';
 import TodoItem from './TodoItem';
+import { faPlusCircle, faTrashAlt, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const API_ENDPOINT = 'http://localhost:3000';
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -36,6 +39,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    document.documentElement.classList.add('background');
+    document.body.classList.add('has-navbar-fixed-top');
     this.setState(
       {
         todos: [],
@@ -127,8 +132,7 @@ class App extends Component {
     const timeObject = new Date(dateObject.getTime() - dateObject.getTimezoneOffset() * 60000);
     return timeObject;
   }
-
-  // NOT NEEDED???
+  
   timezoneOffsetAdd(date) {
     const dateObject = new Date(date);
     const timeObject = new Date(dateObject.getTime() + dateObject.getTimezoneOffset() * 60000);
@@ -143,7 +147,7 @@ class App extends Component {
           title: '',
           //date: this.formatDateToInput(this.timezoneOffsetSubtract(new Date())),
           date: this.formatDateToInput(new Date()),
-          time: '',
+          time: '12:00',
           complete: false,
         },
       });
@@ -168,7 +172,8 @@ class App extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
-    const { id, title, complete } = this.state.input;
+    const { id, title } = this.state.input;
+    const complete = false;
     let { date, time } = this.state.input;
     if (date === '') {
       date = null;
@@ -177,7 +182,7 @@ class App extends Component {
       time = null;
     }
     const newInput = { id, title, date, time, complete };
-    if (this.state.input.id === '') {
+    if (id === '') {
       axios
         .post(`${API_ENDPOINT}/todos`, newInput)
         .catch(err => {
@@ -197,6 +202,8 @@ class App extends Component {
           }
         });
     } else {
+      const newDate = this.timezoneOffsetAdd(date);
+      const items = this.state.todos.filter(x => x.id !== Number(id));
       axios
         .put(`${API_ENDPOINT}/todos/${id}`, newInput)
         .catch(err => {
@@ -204,12 +211,11 @@ class App extends Component {
         })
         .then(res => {
           if (res) {
-            const items = this.state.todos.filter(x => x.id !== Number(id));
             this.setState({
               todos: items.concat({
                 id: Number(id),
                 title: title,
-                date: date,
+                date: newDate,
                 time: time,
                 complete: complete,
               }),
@@ -265,7 +271,7 @@ class App extends Component {
           title: todo[0].title,
           date: todo[0].date,
           time: todo[0].time,
-        }
+        },
       },
       () => {
         todo[0].date = temp;
@@ -311,22 +317,23 @@ class App extends Component {
     const { id, title, date, time, complete } = todo;
     const formattedDate = this.formatDateToRead(date);
     const todayDate = this.formatDateToInput(new Date());
+    console.log(todayDate);
     // timezone offset?
     const newDate = this.formatDateToInput(new Date(date));
     const formattedTime = this.formatAmPm(time);
     return (
       <li
-        key = {id}
-        className ='due-today'
-        style = {{ display: !complete && todayDate === newDate ? 'block' : 'none' }}>
+        key={id}
+        className='due-today'
+        style={{ display: !complete && todayDate === newDate ? 'block' : 'none' }}>
         <TodoItem
-          id = {id}
-          title = {title}
-          formattedDate = {formattedDate}
-          formattedTime = {formattedTime}
-          handleEditTodo = {this.handleEditTodo}
-          handleDeleteTodo = {this.handleDeleteTodo}
-          handleCheckComplete = {this.handleCheckComplete}
+          id={id}
+          title={title}
+          formattedDate={formattedDate}
+          formattedTime={formattedTime}
+          handleEditTodo={this.handleEditTodo}
+          handleDeleteTodo={this.handleDeleteTodo}
+          handleCheckComplete={this.handleCheckComplete}
         />
       </li>
     );
@@ -336,19 +343,20 @@ class App extends Component {
     const { id, title, date, time, complete } = todo;
     const formattedDate = this.formatDateToRead(date);
     const todayDate = this.formatDateToInput(new Date());
+    console.log(todayDate);
     // timezone offset?
     const newDate = this.formatDateToInput(new Date(date));
     const formattedTime = this.formatAmPm(time);
     return (
-      <li key = {id} style = {{ display: !complete && todayDate !== newDate ? 'block' : 'none' }}>
+      <li key={id} style={{ display: !complete && todayDate !== newDate ? 'block' : 'none' }}>
         <TodoItem
-          id = {id}
-          title = {title}
-          formattedDate = {formattedDate}
-          formattedTime = {formattedTime}
-          handleEditTodo = {this.handleEditTodo}
-          handleDeleteTodo = {this.handleDeleteTodo}
-          handleCheckComplete = {this.handleCheckComplete}
+          id={id}
+          title={title}
+          formattedDate={formattedDate}
+          formattedTime={formattedTime}
+          handleEditTodo={this.handleEditTodo}
+          handleDeleteTodo={this.handleDeleteTodo}
+          handleCheckComplete={this.handleCheckComplete}
         />
       </li>
     );
@@ -359,16 +367,15 @@ class App extends Component {
     const formattedDate = this.formatDateToRead(date);
     const formattedTime = this.formatAmPm(time);
     return (
-      <li key = {id} style = {{ display: complete ? 'block' : 'none' }} className ='strike-through'>
+      <li key={id} style={{ display: complete ? 'block' : 'none' }} className='strike-through'>
         <TodoItem
-          id = {id}
-          title = {title}
-          formattedDate = {formattedDate}
-          formattedTime = {formattedTime}
-          handleEditTodo = {this.handleEditTodo}
-          handleDeleteTodo = {this.handleDeleteTodo}
-          handleCheckComplete = {this.handleCheckComplete}
-          
+          id={id}
+          title={title}
+          formattedDate={formattedDate}
+          formattedTime={formattedTime}
+          handleEditTodo={this.handleEditTodo}
+          handleDeleteTodo={this.handleDeleteTodo}
+          handleCheckComplete={this.handleCheckComplete}
         />
       </li>
     );
@@ -376,74 +383,103 @@ class App extends Component {
 
   render() {
     return (
-      <div className ='App'>
-        <div className ='Header'>
-          <h1>Todo List</h1>
-        </div>
-        <div className ='Body'>
-          <div className ='app-buttons'>
-            <button
-              id ='tabsCREATE'
-              style = {{
-                display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
-              }}
-              onClick = {() => this.tabClick(tabs.CREATE)}>
-              Create Todo
-            </button>
-            <button
-              id ='tabsVIEW'
-              style = {{
-                display: this.state.activeTab !== tabs.VIEW ? 'block' : 'none',
-              }}
-              onClick = {() => this.tabClick(tabs.VIEW)}>
-              Go Back
-            </button>
-          </div>
+      <div className='App container'>
+        <nav className='navbar is-fixed-top is-primary'>
+          <div className='navbar-brand'>
+            <div className='navbar-item' onClick={() => this.tabClick(tabs.VIEW)}>
+              <h1 className='title is-2'>Todo List</h1>
+            </div>
+            <div className='navbar-item navbar-buttons'>
+              <div className='is-vertical-center'>
+                <button
+                  className='button is-primary'
+                  onClick={() => this.tabClick(tabs.VIEW)}
+                  style={{
+                    display: this.state.activeTab !== tabs.VIEW ? 'flex' : 'none',
+                  }}>
+                  <FontAwesomeIcon icon={faTimesCircle} size='lg' style={{ color: '#363636' }} />
+                  <h1 className='subtitle create-note'>Back to Notes</h1>
+                </button>
+              </div>
 
+              <div className='is-vertical-center'>
+                <button
+                  className='button is-primary'
+                  onClick={() => this.tabClick(tabs.CREATE)}
+                  style={{
+                    display: this.state.activeTab === tabs.VIEW ? 'flex' : 'none',
+                  }}>
+                  <FontAwesomeIcon icon={faPlusCircle} size='lg' style={{ color: '#363636' }} />
+                  <h1 className='subtitle create-note'>Create Note</h1>
+                </button>
+              </div>
+              <div className='is-vertical-center'>
+                <button className='button is-primary' onClick={() => this.handleDeleteAll()}>
+                  <FontAwesomeIcon icon={faTrashAlt} size='lg' style={{ color: '#363636' }} />
+                  <h1 className='subtitle create-note'>Delete All Notes</h1>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div className='Body container'>
           <div
-            className ='Create-Form'
-            style = {{
+            className='Create-Form'
+            style={{
               display: this.state.activeTab === tabs.CREATE ? 'block' : 'none',
             }}>
             <CreateForm
-              onSubmit = {this.onFormSubmit}
-              onChange = {this.onFormChange}
+              onSubmit={this.onFormSubmit}
+              onChange={this.onFormChange}
               {...this.state.input}
             />
           </div>
-
           <div
-            className ='Edit-Form'
-            style = {{
+            className='Edit-Form'
+            style={{
               display: this.state.activeTab === tabs.EDIT ? 'block' : 'none',
             }}>
             <EditForm
-              onSubmit = {this.onFormSubmit}
-              onChange = {this.onFormChange}
+              onSubmit={this.onFormSubmit}
+              onChange={this.onFormChange}
               {...this.state.input}
             />
           </div>
 
           <div
-            className ='todo-list'
-            style = {{
+            className='todo-list card'
+            style={{
               display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
             }}>
-            <div className ='today-list'>
+            <div className='card-header'>
+              <h1 className='card-header-title is-centered'>Today</h1>
+            </div>
+            <div className='today-list card-content'>
               <ol>{this.state.todos.map(n => this.renderTodayTodo(n))}</ol>
             </div>
-            <div className ='incomplete-list'>
+          </div>
+          <div
+            className='todo-list card'
+            style={{
+              display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
+            }}>
+            <div className='card-header'>
+              <h1 className='card-header-title is-centered'>Incomplete</h1>
+            </div>
+            <div className='incomplete-list card-content'>
               <ol>{this.state.todos.map(n => this.renderIncompleteTodo(n))}</ol>
             </div>
-            <div className ='complete-list'>
-              <ol>{this.state.todos.map(n => this.renderCompleteTodo(n))}</ol>
+          </div>
+          <div
+            className='todo-list card'
+            style={{
+              display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
+            }}>
+            <div className='card-header'>
+              <h1 className='card-header-title is-centered'>Complete</h1>
             </div>
-            <div
-              className ='delete-all'
-              style = {{
-                display: this.state.todos.length > 0 ? 'block' : 'none',
-              }}>
-              <button onClick = {() => this.handleDeleteAll()}>Delete All</button>
+            <div className='complete-list card-content'>
+              <ol>{this.state.todos.map(n => this.renderCompleteTodo(n))}</ol>
             </div>
           </div>
         </div>

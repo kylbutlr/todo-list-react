@@ -6,11 +6,86 @@
   display: none;
 }
 
-.due-today {
-  color: red;
+.due-today p {
+  color: #363636;
   font-weight: bold;
+}
+
+.due-today .box {
+  background: hsl(171, 100%, 41%);
 }
 
 .todo-list {
   width: 25vw;
+}
+
+.is-vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  flex: 1;
+  justify-content: space-between;
+}
+
+.navbar-buttons {
+  display: flex;
+}
+
+.navbar-buttons h1 {
+  padding-left: 1vh;
+}
+
+.navbar-buttons > div {
+  padding-right: 1vh;
+}
+
+.has-navbar-fixed-top {
+  padding-top: 3.75rem !important;
+}
+
+.background {
+  background: #ececec;
+}
+
+.Create-Form {
+  padding-top: 10vh;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.todo-list {
+  margin-bottom: 0.75rem !important;
+}
+
+.todo-list > .card-content {
+  padding-top: 0.75rem;
+  padding-bottom: 0.001rem;
+}
+
+.card-content .box {
+  margin-bottom: 0 !important;
+}
+
+.box {
+  flex: 1;
+}
+
+.todo {
+  display: flex;
+  padding-bottom: 0.75rem;
+}
+
+.todo-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.todo-buttons div {
+  flex: 1;
 }
