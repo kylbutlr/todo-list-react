@@ -57,7 +57,7 @@ export default ({ onSubmit, onChange, title, date, time, id }) => (
       </div>
       <div className='control'>
         <button
-          className='button is-primary is-fullwidth has-text-dark subtitle has-text-weight-semibold'
+          className='button is-primary is-fullwidth has-text-light subtitle has-text-weight-semibold'
           onClick={onSubmit}>
           Save Todo
         </button>

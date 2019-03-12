@@ -88,3 +88,5 @@ yarn-error.log*
 .jshintrc
 
 old/
+
+mybulma/
