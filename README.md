@@ -4,7 +4,9 @@
 ##### Uses: React, Axios, Bulma, and Sass
 
 This is a React front-end created to run alongside the Todo List API.
+
 It features responsive web design for cross-device compatibility.
+
 However, currently does not feature user accounts, so all entries and modifications will be saved and displayed for **all users**
 
 ## Install
@@ -17,7 +19,7 @@ npm install
 
 Connects to API on port `3000`
 
-**Start API server first**
+**Make sure API server is running first**
 
 ```shell
 npm start
