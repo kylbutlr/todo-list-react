@@ -1,21 +1,27 @@
 # Todo List (React)
-### Todo list application React front end
-#### Using: React, Bulma, and Sass
-### [Can be used with Todo List (API)](https://github.com/kylbutlr/todo-list-api)
+### React front-end for Todo list application 
+### [Created to be used with Todo List (API)](https://github.com/kylbutlr/todo-list-api)
+##### Uses: React, Axios, Bulma, and Sass
+
+This is a React front-end created to run alongside the Todo List API.
+It features responsive web design for cross-device compatibility.
+However, currently does not feature user accounts, so all entries and modifications will be saved and displayed for **all users**
 
 ## Install
 
-```bash
+```shell
 npm install
 ```
 
 ## Usage
 
-```bash
+Connects to API on port `3000`
+
+**Start API server first**
+
+```shell
 npm start
 ```
-
-Connects to API on port `3000`
 
 ## Contributing
 
