@@ -1,9 +1,10 @@
 # Todo List (React)
-### React front-end for a Todo List app 
-### [Created to be used with Todo List (API)](https://github.com/kylbutlr/todo-list-api)
-#### Uses: React, Axios, RWD, Bulma, and Sass
+
+### React front-end for a Todo List app, [created to be used with Todo List (API)](https://github.com/kylbutlr/todo-list-api)
 
 This is a React front-end created to run alongside the Todo List API.
+
+Using: React, Axios, RWD, Bulma, and Sass
 
 It features responsive web design for cross-device compatibility.
 
