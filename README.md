@@ -7,7 +7,7 @@ This is a React front-end created to run alongside the Todo List API.
 
 It features responsive web design for cross-device compatibility.
 
-However, currently does not feature user accounts, so all entries and modifications will be saved and displayed for **all users**.
+Currently does not feature user accounts, so all entries and modifications will be saved and displayed for **all users**.
 
 ## Install
 
