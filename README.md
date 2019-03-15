@@ -4,7 +4,7 @@
 
 Using: React, Axios, RWD, Bulma, and Sass
 
-It features responsive web design for cross-device compatibility.
+Create, edit, and delete todo entries with optional time and date requirements. Sorts entries into 3 groups, entries with a date set to the current day (Today's Todos), incomplete entries, and complete (marked complete/done) entries. These groups can be individually hidden. Also features responsive web design for cross-device compatibility.
 
 ## Install
 
