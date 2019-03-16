@@ -9,7 +9,7 @@ import TodoItem from './TodoItem';
 import { faPlusCircle, faTrashAlt, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const API_ENDPOINT = 'http://localhost:3000';
+const API_ENDPOINT = 'postgres://zgzwjcyxhxebov:16b9e97799d41595ce083ff8a1836d7d3bffdcf42aa79392237aa06e1a96382c@ec2-75-101-133-29.compute-1.amazonaws.com:5432/d16fnot6d7ms67';
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const tabs = {
