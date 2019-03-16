@@ -9,7 +9,7 @@ import TodoItem from './TodoItem';
 import { faPlusCircle, faTrashAlt, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const API_ENDPOINT = 'https://kylbutlr-todos.herokuapp.com/';
+const API_ENDPOINT = 'https://kylbutlr-todos.herokuapp.com';
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const tabs = {
