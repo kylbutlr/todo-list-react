@@ -5,12 +5,13 @@ export default ({ onSubmit, onChange, title, date, time, id }) => (
     <div className='card-header has-background-dark'>
       <h1 className='card-header-title subtitle is-centered has-text-light'>Edit Todo:</h1>
     </div>
-    <div className='card-content'>
+    <form className='card-content'>
       <div className='field'>
         <label className='label'>Title</label>
         <div className='control'>
           <input
             className='input'
+            id='edit-input'
             name='title'
             type='text'
             autoComplete='off'
@@ -62,6 +63,6 @@ export default ({ onSubmit, onChange, title, date, time, id }) => (
           Save Todo
         </button>
       </div>
-    </div>
+    </form>
   </div>
 );

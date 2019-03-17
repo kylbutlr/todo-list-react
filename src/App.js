@@ -9,7 +9,7 @@ import TodoItem from './TodoItem';
 import { faPlusCircle, faTrashAlt, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const API_ENDPOINT = 'https://kylbutlr-todos.herokuapp.com';
+const API_ENDPOINT = 'http://localhost:3000';
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const tabs = {
@@ -58,7 +58,13 @@ class App extends Component {
     } else if (activeTab === tabs.CREATE) {
       this.resetInput('date');
     }
-    this.setState({ activeTab });
+    this.setState({ activeTab }, () => {
+      if (activeTab === tabs.CREATE) {
+        document.getElementById('create-input').focus();
+      } else if (activeTab === tabs.EDIT) {
+        document.getElementById('edit-input').focus();
+      }
+    });
   }
 
   getSavedTodos() {
