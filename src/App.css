@@ -43,7 +43,7 @@ p, h1 {
 }
 
 .navbar {
-  border-bottom: 0.2rem #363636 solid;
+  box-shadow: 0 0.1rem 0.5rem  #111;
 }
 
 .navbar-brand {
@@ -88,6 +88,10 @@ p, h1 {
 .todo-list > .card-content {
   padding-top: 0.75rem;
   padding-bottom: 0rem;
+}
+
+.card-header-title {
+  padding: 0.25rem !important;
 }
 
 .card-content {
