@@ -165,10 +165,6 @@ p, h1 {
 
 @media only screen and (max-width:767px) {
 
-  html {
-    margin-left: 0.75rem !important;
-  }
-
   .navbar-brand {
     width: 100vw;
     justify-content: space-between;
