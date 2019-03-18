@@ -73,6 +73,9 @@ class App extends Component {
       })
       .then(todos => {
         if (todos) {
+          for (let i=0;i<todos.data.length;i++) {
+            todos.data[i].date = this.timezoneOffsetAdd(todos.data[i].date)
+          }
           this.setState({
             todos: todos.data,
           });
@@ -181,6 +184,7 @@ class App extends Component {
     const newInput = { id, title, date, time, complete };
     if (id === '') {
       const newDate = this.timezoneOffsetAdd(date);
+      console.log(newDate);
       axios
         .post(`${API_ENDPOINT}/todos`, newInput)
         .catch(err => {
