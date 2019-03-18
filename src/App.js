@@ -40,7 +40,6 @@ class App extends Component {
 
   componentDidMount() {
     document.documentElement.classList.add('background');
-    document.body.classList.add('has-navbar-fixed-top');
     this.setState(
       {
         todos: [],
@@ -445,7 +444,7 @@ class App extends Component {
             </div>
           </div>
         </nav>
-        <div className='container'>
+        <div className='Body container has-navbar-fixed-top'>
           <div className='columns is-mobile'>
             <div className='column side-column' />
             <div className='column middle-column'>

@@ -4,6 +4,15 @@ html {
   overflow: hidden;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
+.Body {
+  margin-top: 3.25rem !important;
+}
+
 p, h1 {
   cursor: default;
 }
@@ -165,6 +174,10 @@ p, h1 {
 
 @media only screen and (max-width:767px) {
 
+  .columns {
+    width: 100%;
+  }
+
   .navbar-brand {
     width: 100vw;
     justify-content: space-between;
@@ -221,8 +234,8 @@ p, h1 {
 
 @media only screen and (min-width:768px) and (max-width:1023px) {
 
-  html {
-    margin-left: 0.75rem !important;
+  .columns {
+    width: 100%;
   }
 
   .todo-list {
