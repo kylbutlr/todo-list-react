@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import './bulma.css';
-//import '../node_modules/bulma/css/bulma.min.css';
 import CreateForm from './CreateForm';
 import EditForm from './EditForm';
 import TodoItem from './TodoItem';
@@ -92,7 +91,6 @@ class App extends Component {
   }
 
   formatDateToInput(aDate) {
-    //const newDate = this.timezoneOffsetSubtract(aDate);
     const newDate = new Date(aDate);
     const year = newDate.getFullYear();
     let month = newDate.getMonth() + 1;
@@ -134,12 +132,6 @@ class App extends Component {
     }
   }
 
-  timezoneOffsetSubtract(date) {
-    const dateObject = new Date(date);
-    const timeObject = new Date(dateObject.getTime() - dateObject.getTimezoneOffset() * 60000);
-    return timeObject;
-  }
-
   timezoneOffsetAdd(date) {
     const dateObject = new Date(date);
     const timeObject = new Date(dateObject.getTime() + dateObject.getTimezoneOffset() * 60000);
@@ -152,7 +144,6 @@ class App extends Component {
         input: {
           id: '',
           title: '',
-          //date: this.formatDateToInput(this.timezoneOffsetSubtract(new Date())),
           date: this.formatDateToInput(new Date()),
           time: '12:00',
           complete: false,
@@ -348,8 +339,6 @@ class App extends Component {
     const { id, title, date, time, complete } = todo;
     const formattedDate = this.formatDateToRead(date);
     const todayDate = this.formatDateToInput(new Date());
-    console.log(todayDate);
-    // timezone offset?
     const newDate = this.formatDateToInput(new Date(date));
     const formattedTime = this.formatAmPm(time);
     return (
@@ -374,8 +363,6 @@ class App extends Component {
     const { id, title, date, time, complete } = todo;
     const formattedDate = this.formatDateToRead(date);
     const todayDate = this.formatDateToInput(new Date());
-    console.log(todayDate);
-    // timezone offset?
     const newDate = this.formatDateToInput(new Date(date));
     const formattedTime = this.formatAmPm(time);
     return (
