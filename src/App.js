@@ -180,6 +180,7 @@ class App extends Component {
     }
     const newInput = { id, title, date, time, complete };
     if (id === '') {
+      const newDate = this.timezoneOffsetAdd(date);
       axios
         .post(`${API_ENDPOINT}/todos`, newInput)
         .catch(err => {
@@ -191,7 +192,7 @@ class App extends Component {
               todos: this.state.todos.concat({
                 id: res.data.id,
                 title: res.data.title,
-                date: res.data.date,
+                date: newDate,
                 time: res.data.time,
                 complete: res.data.complete,
               }),
