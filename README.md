@@ -1,10 +1,16 @@
 # Todo List (React)
 
-#### React front-end for a Todo List app, [created to be used with Todo List (API)](https://github.com/kylbutlr/todo-list-api)
+#### React front-end for a Todo List applciation
+
+Created to be used with my [Todo List (API)](https://github.com/kylbutlr/todo-list-api)
 
 Uses: React, Axios, RWD, Bulma, and Sass
 
-### [Click Here for a Live Preview](https://kylbutlr-todos-react.herokuapp.com/) (Warning: **Public** Information)
+## Preview
+
+### [Click here for a live preview](https://kylbutlr-todos-react.herokuapp.com/)
+
+**Warning**: This is public information. This is currently a "public app" and does not feature user accounts, so all entries and modifications will be **saved and displayed for all users**.
 
 ## Description
 
@@ -31,6 +37,10 @@ npm start
 [@kylbutlr](https://github.com/kylbutlr)
 
 PRs accepted.
+
+## Special Thanks
+
+[@NoumanSaleem](https://github.com/NoumanSaleem])
 
 ## License
 
