@@ -6,9 +6,13 @@ Created to be used with my [Todo List (API)](https://github.com/kylbutlr/todo-li
 
 Uses: React, Axios, RWD, Bulma, and Sass
 
+***
+
 ### [Click here for a live preview](https://kylbutlr-todos-react.herokuapp.com/)
 
 **Warning**: This is public information. This is currently a "public app" and does not feature user accounts, so all entries and modifications will be **saved and displayed for all users**.
+
+***
 
 ## Description
 
@@ -22,13 +26,11 @@ npm install
 
 ## Usage
 
-Connects to API on port `3000`
-
-**Make sure API server is running first**
-
 ```shell
 npm start
 ```
+
+***
 
 ## Contributing
 
