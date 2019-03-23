@@ -10,7 +10,7 @@ Uses: React, Axios, RWD, Bulma, and Sass
 
 ### [Click here for a live preview](https://kylbutlr-todos-react.herokuapp.com/)
 
-This is currently a "public app" without user accounts, so **all entries and modifications will be publicly displayed to every visitor (deleted daily)**.
+This is currently a "public app" without user accounts, so **all entries and modifications will be publicly displayed (deleted daily)**.
 
 ***
 
