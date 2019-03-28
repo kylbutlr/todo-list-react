@@ -40,6 +40,7 @@ class App extends Component {
 
   componentDidMount() {
     document.documentElement.classList.add('background');
+    this.runResize();
     this.setState(
       {
         todos: [],
@@ -48,6 +49,15 @@ class App extends Component {
         this.getSavedTodos();
       }
     );
+  }
+
+  runResize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    window.addEventListener('resize', () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
   }
 
   tabClick(activeTab) {

@@ -1,12 +1,13 @@
 html {
-  width: 100vw;
-  height: calc(100vh);
   overflow: hidden;
 }
 
 .App {
   display: flex;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 .Body {
