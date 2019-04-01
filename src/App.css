@@ -102,6 +102,11 @@ p, h1 {
 
 .card-header-title {
   padding: 0.25rem !important;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
 }
 
 .card-content {

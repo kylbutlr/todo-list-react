@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 import './bulma.css';
-import CreateForm from './CreateForm';
-import EditForm from './EditForm';
-import TodoItem from './TodoItem';
-import { faPlusCircle, faTrashAlt, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Navbar from './Components/Navbar';
+import CreateForm from './Components/CreateForm';
+import EditForm from './Components/EditForm';
+import TodosToday from './Components/TodosToday';
+import TodosIncomplete from './Components/TodosIncomplete';
+import TodosComplete from './Components/TodosComplete';
 
 const API_ENDPOINT = 'https://kylbutlr-todos-api.herokuapp.com';
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -23,8 +24,10 @@ class App extends Component {
     this.onFormChange = this.onFormChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
+    this.handleDeleteAll = this.handleDeleteAll.bind(this);
     this.handleEditTodo = this.handleEditTodo.bind(this);
     this.handleCheckComplete = this.handleCheckComplete.bind(this);
+    this.tabClick = this.tabClick.bind(this);
     this.state = {
       activeTab: tabs.VIEW,
       todos: [],
@@ -83,8 +86,8 @@ class App extends Component {
       })
       .then(todos => {
         if (todos) {
-          for (let i=0;i<todos.data.length;i++) {
-            todos.data[i].date = this.timezoneOffsetAdd(todos.data[i].date)
+          for (let i = 0; i < todos.data.length; i++) {
+            todos.data[i].date = this.timezoneOffsetAdd(todos.data[i].date);
           }
           this.setState({
             todos: todos.data,
@@ -349,188 +352,70 @@ class App extends Component {
     }
   }
 
-  renderTodayTodo(todo) {
-    const { id, title, date, time, complete } = todo;
-    const formattedDate = this.formatDateToRead(date);
-    const todayDate = this.formatDateToInput(new Date());
-    const newDate = this.formatDateToInput(new Date(date));
-    const formattedTime = this.formatAmPm(time);
-    return (
-      <li
-        key={id}
-        className='due-today'
-        style={{ display: !complete && todayDate === newDate ? 'block' : 'none' }}>
-        <TodoItem
-          id={id}
-          title={title}
-          formattedDate={formattedDate}
-          formattedTime={formattedTime}
-          handleEditTodo={this.handleEditTodo}
-          handleDeleteTodo={this.handleDeleteTodo}
-          handleCheckComplete={this.handleCheckComplete}
-        />
-      </li>
-    );
-  }
-
-  renderIncompleteTodo(todo) {
-    const { id, title, date, time, complete } = todo;
-    const formattedDate = this.formatDateToRead(date);
-    const todayDate = this.formatDateToInput(new Date());
-    const newDate = this.formatDateToInput(new Date(date));
-    const formattedTime = this.formatAmPm(time);
-    return (
-      <li key={id} style={{ display: !complete && todayDate !== newDate ? 'block' : 'none' }}>
-        <TodoItem
-          id={id}
-          title={title}
-          formattedDate={formattedDate}
-          formattedTime={formattedTime}
-          handleEditTodo={this.handleEditTodo}
-          handleDeleteTodo={this.handleDeleteTodo}
-          handleCheckComplete={this.handleCheckComplete}
-        />
-      </li>
-    );
-  }
-
-  renderCompleteTodo(todo) {
-    const { id, title, date, time, complete } = todo;
-    const formattedDate = this.formatDateToRead(date);
-    const formattedTime = this.formatAmPm(time);
-    return (
-      <li key={id} style={{ display: complete ? 'block' : 'none' }} className='complete'>
-        <TodoItem
-          id={id}
-          title={title}
-          formattedDate={formattedDate}
-          formattedTime={formattedTime}
-          handleEditTodo={this.handleEditTodo}
-          handleDeleteTodo={this.handleDeleteTodo}
-          handleCheckComplete={this.handleCheckComplete}
-        />
-      </li>
-    );
-  }
-
   render() {
     return (
       <div className='App container'>
-        <nav className='navbar is-fixed-top is-primary'>
-          <div className='navbar-brand'>
-            <div className='navbar-item' onClick={() => this.tabClick(tabs.VIEW)}>
-              <h1 className='title has-text-light'>Todo List</h1>
-            </div>
-            <div className='navbar-item navbar-buttons'>
-              <div className='is-vertical-center'>
-                <button
-                  className='button is-primary'
-                  onClick={() => this.tabClick(tabs.VIEW)}
-                  style={{
-                    display: this.state.activeTab !== tabs.VIEW ? 'flex' : 'none',
-                  }}>
-                  <FontAwesomeIcon icon={faTimesCircle} size='lg' style={{ color: '#F5F5F5' }} />
-                  <h1 className='subtitle has-text-light'>
-                    Back<span> to Notes</span>
-                  </h1>
-                </button>
-              </div>
-              <div className='is-vertical-center'>
-                <button
-                  className='button is-primary'
-                  onClick={() => this.tabClick(tabs.CREATE)}
-                  style={{
-                    display: this.state.activeTab === tabs.VIEW ? 'flex' : 'none',
-                  }}>
-                  <FontAwesomeIcon icon={faPlusCircle} size='lg' style={{ color: '#F5F5F5' }} />
-                  <h1 className='subtitle has-text-light'>
-                    Create<span> Note</span>
-                  </h1>
-                </button>
-              </div>
-              <div className='is-vertical-center'>
-                <button className='button is-primary' onClick={() => this.handleDeleteAll()}>
-                  <FontAwesomeIcon icon={faTrashAlt} size='lg' style={{ color: '#F5F5F5' }} />
-                  <h1 className='subtitle has-text-light'>
-                    Delete<span> All Notes</span>
-                  </h1>
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
+        <Navbar
+          tabs={tabs}
+          activeTab={this.state.activeTab}
+          tabClick={this.tabClick}
+          handleDeleteAll={this.handleDeleteAll}
+        />
         <div className='Body container has-navbar-fixed-top'>
           <div className='columns is-mobile'>
             <div className='column side-column' />
             <div className='column middle-column'>
-              <div
-                className='Create-Form'
-                style={{
-                  display: this.state.activeTab === tabs.CREATE ? 'block' : 'none',
-                }}>
-                <CreateForm
-                  onSubmit={this.onFormSubmit}
-                  onChange={this.onFormChange}
-                  {...this.state.input}
-                />
-              </div>
-              <div
-                className='Edit-Form'
-                style={{
-                  display: this.state.activeTab === tabs.EDIT ? 'block' : 'none',
-                }}>
-                <EditForm
-                  onSubmit={this.onFormSubmit}
-                  onChange={this.onFormChange}
-                  {...this.state.input}
-                />
-              </div>
-              <div
-                className='todo-list card'
-                style={{
-                  display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
-                }}>
-                <div
-                  onClick={() => this.handleHideList('today')}
-                  className='card-header has-background-dark'>
-                  <h1 className='card-header-title subtitle is-centered has-text-light'>Today</h1>
-                </div>
-                <div id='todayList' className='today-list card-content'>
-                  <ol>{this.state.todos.map(n => this.renderTodayTodo(n))}</ol>
-                </div>
-              </div>
-              <div
-                className='todo-list card'
-                style={{
-                  display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
-                }}>
-                <div
-                  onClick={() => this.handleHideList('incomplete')}
-                  className='card-header has-background-dark'>
-                  <h1 className='card-header-title subtitle is-centered has-text-light'>
-                    Incomplete
-                  </h1>
-                </div>
-                <div id='incompleteList' className='incomplete-list card-content'>
-                  <ol>{this.state.todos.map(n => this.renderIncompleteTodo(n))}</ol>
-                </div>
-              </div>
-              <div
-                className='todo-list card'
-                style={{
-                  display: this.state.activeTab === tabs.VIEW ? 'block' : 'none',
-                }}>
-                <div
-                  onClick={() => this.handleHideList('complete')}
-                  className='card-header has-background-dark'>
-                  <h1 className='card-header-title subtitle is-centered has-text-light'>
-                    Complete
-                  </h1>
-                </div>
-                <div id='completeList' className='complete-list card-content'>
-                  <ol>{this.state.todos.map(n => this.renderCompleteTodo(n))}</ol>
-                </div>
-              </div>
+              <CreateForm
+                onSubmit={this.onFormSubmit}
+                onChange={this.onFormChange}
+                {...this.state.input}
+                tabs={tabs}
+                activeTab={this.state.activeTab}
+              />
+              <EditForm
+                onSubmit={this.onFormSubmit}
+                onChange={this.onFormChange}
+                {...this.state.input}
+                tabs={tabs}
+                activeTab={this.state.activeTab}
+              />
+              <TodosToday
+                tabs={tabs}
+                activeTab={this.state.activeTab}
+                todos={this.state.todos}
+                renderTodayTodo={this.renderTodayTodo}
+                handleHideList={this.handleHideList}
+                formatAmPm={this.formatAmPm}
+                formatDateToRead={this.formatDateToRead}
+                formatDateToInput={this.formatDateToInput}
+                handleEditTodo={this.handleEditTodo}
+                handleDeleteTodo={this.handleDeleteTodo}
+                handleCheckComplete={this.handleCheckComplete}
+              />
+              <TodosIncomplete
+                tabs={tabs}
+                activeTab={this.state.activeTab}
+                todos={this.state.todos}
+                renderIncompleteTodo={this.renderIncompleteTodo}
+                handleHideList={this.handleHideList}
+                formatAmPm={this.formatAmPm}
+                formatDateToRead={this.formatDateToRead}
+                formatDateToInput={this.formatDateToInput}
+                handleEditTodo={this.handleEditTodo}
+                handleDeleteTodo={this.handleDeleteTodo}
+                handleCheckComplete={this.handleCheckComplete}
+              />
+              <TodosComplete
+                tabs={tabs}
+                activeTab={this.state.activeTab}
+                todos={this.state.todos}
+                handleHideList={this.handleHideList}
+                formatAmPm={this.formatAmPm}
+                formatDateToRead={this.formatDateToRead}
+                handleEditTodo={this.handleEditTodo}
+                handleDeleteTodo={this.handleDeleteTodo}
+                handleCheckComplete={this.handleCheckComplete}
+              />
             </div>
             <div className='column side-column' />
           </div>
