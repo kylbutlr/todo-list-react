@@ -1,6 +1,6 @@
 # Todo List (React)
 
-#### React front-end for a Todo List application
+#### React front-end for a basic todo list application
 
 Create, edit, and delete todo entries with optional time and date requirements. Sorts entries into 3 groups, entries with a date set to the current day (Today's Todos), incomplete entries, and complete (marked complete/done) entries. These groups can be individually hidden. Also features responsive web design for cross-device compatibility.
 
@@ -8,7 +8,7 @@ Created to be used with my [Todo List API](https://github.com/kylbutlr/todo-list
 
 Uses: React, Axios, RWD, Bulma, and Sass
 
-## How to Use
+## How to Use:
 
 ### [Click here for a live preview](https://kylbutlr-todos-react.herokuapp.com/)
 
@@ -22,7 +22,7 @@ Alternatively, download this repository and run the front-end locally:
 
 ***
 
-## Contributing
+## Contributing:
 
 [@kylbutlr](https://github.com/kylbutlr)
 
@@ -30,6 +30,6 @@ Alternatively, download this repository and run the front-end locally:
 
 [@NoumanSaleem](https://github.com/NoumanSaleem)
 
-## License
+## License:
 
 MIT
