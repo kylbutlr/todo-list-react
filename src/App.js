@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
-import './bulma.css';
+import './css/App.css';
+import './css/bulma.css';
 import Navbar from './Components/Navbar';
 import CreateForm from './Components/CreateForm';
 import EditForm from './Components/EditForm';
