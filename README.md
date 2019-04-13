@@ -6,7 +6,7 @@ Create, edit, and delete todo entries with optional time and date requirements. 
 
 Created to be used with [Todo List API](https://github.com/kylbutlr/todo-list-api)
 
-Uses: React, Axios, RWD, Bulma, and Sass
+Uses: React, Axios, Sass, Bulma, RWD
 
 ## How to Use:
 
