@@ -196,8 +196,10 @@ class App extends Component {
     }
     const newInput = { id, title, date, time, complete };
     if (id === '') {
-      const newDate = this.timezoneOffsetAdd(date);
-      console.log(newDate);
+      let newDate;
+      if (date !== null) {
+        newDate = this.timezoneOffsetAdd(date);
+      }
       axios
         .post(`${API_ENDPOINT}/todos`, newInput)
         .catch(err => {
