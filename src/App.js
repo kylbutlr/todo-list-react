@@ -91,6 +91,7 @@ class App extends Component {
               todos.data[i].date = this.timezoneOffsetAdd(todos.data[i].date);
             }
           }
+          console.log(todos.data);
           this.setState({
             todos: todos.data,
           });
@@ -190,17 +191,15 @@ class App extends Component {
     const { id, title } = this.state.input;
     const complete = false;
     let { date, time } = this.state.input;
-    if (date === '') {
+    if (date !== '') {
+      date = this.timezoneOffsetAdd(date);
+    } else { 
       date = null;
     }
     if (time === '') {
       time = null;
     }
-    let newDate;
-    if (date !== null) {
-      newDate = this.timezoneOffsetAdd(date);
-    }
-    const newInput = { id, title, newDate, time, complete };
+    const newInput = { id, title, date, time, complete };
     if (id === '') {
       axios
         .post(`${API_ENDPOINT}/todos`, newInput)
@@ -213,7 +212,7 @@ class App extends Component {
               todos: this.state.todos.concat({
                 id: res.data.id,
                 title: res.data.title,
-                date: newDate,
+                date: res.data.date,
                 time: res.data.time,
                 complete: res.data.complete,
               }),
@@ -233,7 +232,7 @@ class App extends Component {
               todos: items.concat({
                 id: Number(id),
                 title: title,
-                date: newDate,
+                date: date,
                 time: time,
                 complete: complete,
               }),
