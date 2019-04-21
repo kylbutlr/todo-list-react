@@ -87,7 +87,9 @@ class App extends Component {
       .then(todos => {
         if (todos) {
           for (let i = 0; i < todos.data.length; i++) {
-            todos.data[i].date = this.timezoneOffsetAdd(todos.data[i].date);
+            if (todos.data[i].date !== null) {
+              todos.data[i].date = this.timezoneOffsetAdd(todos.data[i].date);
+            }
           }
           this.setState({
             todos: todos.data,
@@ -194,12 +196,12 @@ class App extends Component {
     if (time === '') {
       time = null;
     }
-    const newInput = { id, title, date, time, complete };
+    let newDate;
+    if (date !== null) {
+      newDate = this.timezoneOffsetAdd(date);
+    }
+    const newInput = { id, title, newDate, time, complete };
     if (id === '') {
-      let newDate;
-      if (date !== null) {
-        newDate = this.timezoneOffsetAdd(date);
-      }
       axios
         .post(`${API_ENDPOINT}/todos`, newInput)
         .catch(err => {
@@ -219,7 +221,6 @@ class App extends Component {
           }
         });
     } else {
-      const newDate = this.timezoneOffsetAdd(date);
       const items = this.state.todos.filter(x => x.id !== Number(id));
       axios
         .put(`${API_ENDPOINT}/todos/${id}`, newInput)
