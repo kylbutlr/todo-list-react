@@ -36,6 +36,27 @@ h1 {
   display: none;
 }
 
+.spinner-div {
+  margin-top: 25vh;
+}
+
+.spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 5rem;
+  padding: 5vh 0;
+  margin: auto;
+}
+
+.spinner-text {
+  margin-top: 1rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  padding-bottom: 0;
+}
+
 .complete {
   opacity: 0.5;
   text-decoration: line-through wavy;

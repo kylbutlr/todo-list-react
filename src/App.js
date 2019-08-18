@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './css/App.css';
 import './css/bulma.css';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import swal from 'sweetalert';
+
 import Navbar from './Components/Navbar';
 import CreateForm from './Components/CreateForm';
 import EditForm from './Components/EditForm';
 import TodosToday from './Components/TodosToday';
 import TodosIncomplete from './Components/TodosIncomplete';
 import TodosComplete from './Components/TodosComplete';
+import LoadingSpinner from './Components/LoadingSpinner';
 
 const API_ENDPOINT = 'https://kylbutlr-todos-api.herokuapp.com';
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -28,9 +33,11 @@ class App extends Component {
     this.handleEditTodo = this.handleEditTodo.bind(this);
     this.handleCheckComplete = this.handleCheckComplete.bind(this);
     this.tabClick = this.tabClick.bind(this);
+    this.renderSpinner = this.renderSpinner.bind(this);
     this.state = {
       activeTab: tabs.VIEW,
       todos: [],
+      loading: true,
       input: {
         id: '',
         title: '',
@@ -94,6 +101,7 @@ class App extends Component {
           console.log(todos.data);
           this.setState({
             todos: todos.data,
+            loading: false,
           });
         }
       });
@@ -188,6 +196,7 @@ class App extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+    this.setState({ loading: true });
     const { id, title } = this.state.input;
     const complete = false;
     let { date, time } = this.state.input;
@@ -205,6 +214,7 @@ class App extends Component {
         .post(`${API_ENDPOINT}/todos`, newInput)
         .catch(err => {
           console.log(err);
+          this.setState({ loading: false });
         })
         .then(res => {
           if (res) {
@@ -212,10 +222,11 @@ class App extends Component {
               todos: this.state.todos.concat({
                 id: res.data.id,
                 title: res.data.title,
-                date: res.data.date,
+                date: this.timezoneOffsetAdd(res.data.date),
                 time: res.data.time,
                 complete: res.data.complete,
               }),
+              loading: false,
             });
           }
         });
@@ -236,6 +247,7 @@ class App extends Component {
                 time: time,
                 complete: complete,
               }),
+              loading: false,
             });
           }
         });
@@ -312,12 +324,15 @@ class App extends Component {
   }
 
   handleDeleteAll() {
-    if (
-      window.confirm(
-        'Are you sure you want to delete all (' + this.state.todos.length + ') saved todos?'
-      )
-    ) {
-      axios
+    swal({
+      title: 'Are you sure?',
+      text: 'Are you sure you want to delete all (' + this.state.todos.length + ') saved todos?',
+      icon: 'warning',
+      buttons: true,
+    })
+    .then(willDelete => {
+      if (willDelete) {
+        axios
         .delete(`${API_ENDPOINT}/todos`)
         .catch(err => {
           console.log(err);
@@ -327,7 +342,8 @@ class App extends Component {
             todos: [],
           });
         });
-    }
+      }
+    });
   }
 
   handleHideList(list) {
@@ -354,6 +370,15 @@ class App extends Component {
     }
   }
 
+  renderSpinner() {
+    return (
+      <div className='spinner'>
+        <FontAwesomeIcon icon={faSpinner} spin />
+        <h2 hidden className='spinner-text'>Loading...</h2> 
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className='App container'>
@@ -364,62 +389,73 @@ class App extends Component {
           handleDeleteAll={this.handleDeleteAll}
         />
         <div className='Body container has-navbar-fixed-top'>
-          <div className='columns is-mobile'>
-            <div className='column side-column' />
-            <div className='column middle-column'>
-              <CreateForm
-                onSubmit={this.onFormSubmit}
-                onChange={this.onFormChange}
-                {...this.state.input}
-                tabs={tabs}
-                activeTab={this.state.activeTab}
-              />
-              <EditForm
-                onSubmit={this.onFormSubmit}
-                onChange={this.onFormChange}
-                {...this.state.input}
-                tabs={tabs}
-                activeTab={this.state.activeTab}
-              />
-              <TodosToday
-                tabs={tabs}
-                activeTab={this.state.activeTab}
-                todos={this.state.todos}
-                renderTodayTodo={this.renderTodayTodo}
-                handleHideList={this.handleHideList}
-                formatAmPm={this.formatAmPm}
-                formatDateToRead={this.formatDateToRead}
-                formatDateToInput={this.formatDateToInput}
-                handleEditTodo={this.handleEditTodo}
-                handleDeleteTodo={this.handleDeleteTodo}
-                handleCheckComplete={this.handleCheckComplete}
-              />
-              <TodosIncomplete
-                tabs={tabs}
-                activeTab={this.state.activeTab}
-                todos={this.state.todos}
-                renderIncompleteTodo={this.renderIncompleteTodo}
-                handleHideList={this.handleHideList}
-                formatAmPm={this.formatAmPm}
-                formatDateToRead={this.formatDateToRead}
-                formatDateToInput={this.formatDateToInput}
-                handleEditTodo={this.handleEditTodo}
-                handleDeleteTodo={this.handleDeleteTodo}
-                handleCheckComplete={this.handleCheckComplete}
-              />
-              <TodosComplete
-                tabs={tabs}
-                activeTab={this.state.activeTab}
-                todos={this.state.todos}
-                handleHideList={this.handleHideList}
-                formatAmPm={this.formatAmPm}
-                formatDateToRead={this.formatDateToRead}
-                handleEditTodo={this.handleEditTodo}
-                handleDeleteTodo={this.handleDeleteTodo}
-                handleCheckComplete={this.handleCheckComplete}
-              />
+          <div className='body' style={{
+            display: this.state.loading === true ? 'block' : 'none',
+          }}>
+            <LoadingSpinner
+              renderSpinner={this.renderSpinner}
+            />
+          </div>
+          <div className='body' style={{
+            display: this.state.loading === false ? 'block' : 'none',
+          }}>
+            <div className='columns is-mobile'>
+              <div className='column side-column' />
+              <div className='column middle-column'>
+                <CreateForm
+                  onSubmit={this.onFormSubmit}
+                  onChange={this.onFormChange}
+                  {...this.state.input}
+                  tabs={tabs}
+                  activeTab={this.state.activeTab}
+                />
+                <EditForm
+                  onSubmit={this.onFormSubmit}
+                  onChange={this.onFormChange}
+                  {...this.state.input}
+                  tabs={tabs}
+                  activeTab={this.state.activeTab}
+                />
+                <TodosToday
+                  tabs={tabs}
+                  activeTab={this.state.activeTab}
+                  todos={this.state.todos}
+                  renderTodayTodo={this.renderTodayTodo}
+                  handleHideList={this.handleHideList}
+                  formatAmPm={this.formatAmPm}
+                  formatDateToRead={this.formatDateToRead}
+                  formatDateToInput={this.formatDateToInput}
+                  handleEditTodo={this.handleEditTodo}
+                  handleDeleteTodo={this.handleDeleteTodo}
+                  handleCheckComplete={this.handleCheckComplete}
+                />
+                <TodosIncomplete
+                  tabs={tabs}
+                  activeTab={this.state.activeTab}
+                  todos={this.state.todos}
+                  renderIncompleteTodo={this.renderIncompleteTodo}
+                  handleHideList={this.handleHideList}
+                  formatAmPm={this.formatAmPm}
+                  formatDateToRead={this.formatDateToRead}
+                  formatDateToInput={this.formatDateToInput}
+                  handleEditTodo={this.handleEditTodo}
+                  handleDeleteTodo={this.handleDeleteTodo}
+                  handleCheckComplete={this.handleCheckComplete}
+                />
+                <TodosComplete
+                  tabs={tabs}
+                  activeTab={this.state.activeTab}
+                  todos={this.state.todos}
+                  handleHideList={this.handleHideList}
+                  formatAmPm={this.formatAmPm}
+                  formatDateToRead={this.formatDateToRead}
+                  handleEditTodo={this.handleEditTodo}
+                  handleDeleteTodo={this.handleDeleteTodo}
+                  handleCheckComplete={this.handleCheckComplete}
+                />
+              </div>
+              <div className='column side-column' />
             </div>
-            <div className='column side-column' />
           </div>
         </div>
       </div>

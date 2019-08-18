@@ -42,7 +42,7 @@ export default class Navbar extends Component {
                 <button className='button is-primary' onClick={() => this.props.handleDeleteAll()}>
                   <FontAwesomeIcon icon={faTrashAlt} size='lg' style={{ color: '#F5F5F5' }} />
                   <h1 className='subtitle has-text-light'>
-                    Delete<span> All Notes</span>
+                    Delete<span> All</span>
                   </h1>
                 </button>
               </div>
