@@ -257,6 +257,7 @@ class App extends Component {
   }
 
   handleCheckComplete(id) {
+    this.setState({ loading: true });
     let todo = this.state.todos.filter(x => x.id === Number(id));
     if (todo[0].complete === false) {
       todo[0].complete = true;
@@ -267,6 +268,7 @@ class App extends Component {
       .put(`${API_ENDPOINT}/todos/${id}`, todo[0])
       .catch(err => {
         console.log(err);
+        this.setState({ loading: false });
       })
       .then(() => {
         const todos = this.state.todos.filter(x => x.id !== Number(id));
@@ -278,6 +280,7 @@ class App extends Component {
             time: todo[0].time,
             complete: todo[0].complete,
           }),
+          loading: false,
         });
       });
   }

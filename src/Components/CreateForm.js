@@ -10,7 +10,7 @@ export default class CreateForm extends Component {
         }}>
         <div className='card'>
           <div className='card-header has-background-dark'>
-            <h1 className='card-header-title subtitle is-centered has-text-light'>New Todo</h1>
+            <h1 className='card-header-title subtitle is-centered has-text-light'>Create Todo</h1>
           </div>
           <form className='card-content'>
             <div className='field'>

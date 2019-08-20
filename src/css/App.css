@@ -81,6 +81,9 @@ h1 {
   display: flex;
   align-items: center; }
 
+.card-content {
+  min-height: 10px; }
+
 .todo-list {
   width: 40vw;
   margin: 0.75rem auto !important; }
@@ -93,7 +96,10 @@ h1 {
   width: 30vw; }
 
 .card {
-  border-radius: 0.5rem; }
+  border-radius: 0.5rem;
+  box-shadow: -2px 4px 10px #00000040 !important;
+  -moz-box-shadow: -2px 4px 10px #00000040 !important;
+  -webkit-box-shadow: -2px 4px 10px #00000040 !important; }
   .card-header {
     border-radius: 0.5rem 0.5rem 0 0; }
   .card-content {
@@ -106,7 +112,7 @@ h1 {
     -webkit-user-select: none;
     -o-user-select: none; }
   .card-content {
-    background: #f0e5ed !important; }
+    background: rgba(138, 77, 118, 0.5) !important; }
     .card-content .box {
       margin-bottom: 0 !important; }
 
@@ -125,10 +131,11 @@ h1 {
     .todo-buttons div {
       flex: 1;
       border-left: 0;
+      border-right: 0;
       border-top-left-radius: 0rem;
       border-bottom-left-radius: 0rem;
       transition: all 0.2s;
-      opacity: 0.5; }
+      opacity: 0.625; }
       .todo-buttons div:first-child {
         border-top: 0; }
       .todo-buttons div:nth-child(2) {
@@ -138,6 +145,11 @@ h1 {
       .todo-buttons div button svg {
         position: relative;
         top: 0.1rem; }
+
+.todo-buttons {
+  box-shadow: -2px 4px 15px #00000040;
+  -moz-box-shadow: -2px 4px 15px #00000040;
+  -webkit-box-shadow: -2px 4px 15px #00000040; }
 
 .control .button {
   margin-top: 1.5rem !important; }
