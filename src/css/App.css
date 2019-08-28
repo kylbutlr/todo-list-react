@@ -205,11 +205,13 @@ h1 {
   .todo-buttons div {
     opacity: 1; } }
 
+@media only screen and (max-width: 768px) {
+  .todo-buttons div {
+    opacity: 1; } }
+
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   .todo-list {
     width: 60vw; }
   .Create-Form,
   .Edit-Form {
-    width: 50vw; }
-  .todo-buttons div {
-    opacity: 1; } }
+    width: 50vw; } }
