@@ -21,7 +21,7 @@ export default class Navbar extends Component {
                   }}>
                   <FontAwesomeIcon icon={faTimesCircle} size='lg' style={{ color: '#F5F5F5' }} />
                   <h1 className='subtitle has-text-light'>
-                    Back<span> to To-dos</span>
+                    Back<span> to List</span>
                   </h1>
                 </button>
               </div>
