@@ -329,7 +329,7 @@ class App extends Component {
   handleDeleteAll() {
     swal({
       title: 'Are you sure?',
-      text: 'Are you sure you want to delete all (' + this.state.todos.length + ') saved todos?',
+      text: 'Are you sure you want to delete all (' + this.state.todos.length + ') saved to-dos?',
       icon: 'warning',
       buttons: true,
     })

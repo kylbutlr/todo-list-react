@@ -10,7 +10,7 @@ export default class EditForm extends Component {
         }}>
         <div className='card'>
           <div className='card-header has-background-dark'>
-            <h1 className='card-header-title subtitle is-centered has-text-light'>Edit Todo</h1>
+            <h1 className='card-header-title subtitle is-centered has-text-light'>Edit To-do</h1>
           </div>
           <form className='card-content'>
             <div className='field'>

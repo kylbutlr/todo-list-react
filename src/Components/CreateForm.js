@@ -10,7 +10,7 @@ export default class CreateForm extends Component {
         }}>
         <div className='card'>
           <div className='card-header has-background-dark'>
-            <h1 className='card-header-title subtitle is-centered has-text-light'>Create Todo</h1>
+            <h1 className='card-header-title subtitle is-centered has-text-light'>Create To-do</h1>
           </div>
           <form className='card-content'>
             <div className='field'>
@@ -58,7 +58,7 @@ export default class CreateForm extends Component {
               <button
                 className='button is-primary is-fullwidth has-text-light subtitle has-text-weight-semibold'
                 onClick={this.props.onSubmit}>
-                Create Todo
+                Create To-do
               </button>
             </div>
           </form>

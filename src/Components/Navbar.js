@@ -9,7 +9,7 @@ export default class Navbar extends Component {
         <nav className='navbar is-fixed-top is-primary'>
           <div className='navbar-brand'>
             <div className='navbar-item' onClick={() => this.props.tabClick(this.props.tabs.VIEW)}>
-              <h1 className='title has-text-light'>Todo List</h1>
+              <h1 className='title has-text-light'>To-do List</h1>
             </div>
             <div className='navbar-item navbar-buttons'>
               <div className='is-vertical-center'>
@@ -21,7 +21,7 @@ export default class Navbar extends Component {
                   }}>
                   <FontAwesomeIcon icon={faTimesCircle} size='lg' style={{ color: '#F5F5F5' }} />
                   <h1 className='subtitle has-text-light'>
-                    Back<span> to Notes</span>
+                    Back<span> to To-dos</span>
                   </h1>
                 </button>
               </div>
@@ -34,7 +34,7 @@ export default class Navbar extends Component {
                   }}>
                   <FontAwesomeIcon icon={faPlusCircle} size='lg' style={{ color: '#F5F5F5' }} />
                   <h1 className='subtitle has-text-light'>
-                    Create<span> Note</span>
+                    Create<span> To-do</span>
                   </h1>
                 </button>
               </div>
